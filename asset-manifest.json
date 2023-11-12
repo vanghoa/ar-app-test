@@ -1,15 +1,16 @@
 {
   "files": {
     "main.css": "/ar-app-test/static/css/main.a6e31718.css",
-    "main.js": "/ar-app-test/static/js/main.6648dc31.js",
+    "main.js": "/ar-app-test/static/js/main.3f677920.js",
     "static/js/787.aa80d743.chunk.js": "/ar-app-test/static/js/787.aa80d743.chunk.js",
+    "static/media/motorcycleHelmet.glb": "/ar-app-test/static/media/motorcycleHelmet.37923a62ad2f9a7732aa.glb",
     "index.html": "/ar-app-test/index.html",
     "main.a6e31718.css.map": "/ar-app-test/static/css/main.a6e31718.css.map",
-    "main.6648dc31.js.map": "/ar-app-test/static/js/main.6648dc31.js.map",
+    "main.3f677920.js.map": "/ar-app-test/static/js/main.3f677920.js.map",
     "787.aa80d743.chunk.js.map": "/ar-app-test/static/js/787.aa80d743.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a6e31718.css",
-    "static/js/main.6648dc31.js"
+    "static/js/main.3f677920.js"
   ]
 }
