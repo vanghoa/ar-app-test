@@ -109,7 +109,7 @@ export default function MainAR({ assets }) {
         <>
             {ins && (
                 <section
-                    className="absolute z-50 left-0 top-0 w-full h-full bg-green-500 flex justify-center items-center font-mono text-lg"
+                    className="absolute z-50 left-0 top-0 w-full h-full bg-green-500 flex justify-center items-center font-mono text-lg p-8"
                     onClick={handlerEnter}
                 >
                     - Please allow the camera when requested <br></br> - You can
