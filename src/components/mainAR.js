@@ -3,6 +3,10 @@ import 'mind-ar/dist/mindar-face-aframe.prod.js';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import Arrow from './arrow';
+import Loading from './loading';
+import Instruction from './instruction';
+import InstructionStart from './instruction_';
+import Error from './error';
 
 const animconfig = 'dur: 500; easing: linear;';
 
@@ -16,6 +20,8 @@ export default function MainAR({ assets }) {
     const [cur, setCur] = useState(0);
     const [on, setOn] = useState(true);
     const [ins, setIns] = useState(true);
+    const [err, setErr] = useState(false);
+    const [loading, setLoading] = useState(false);
     const itemsRef = useRef([]);
 
     useEffect(() => {
@@ -77,7 +83,19 @@ export default function MainAR({ assets }) {
     };
 
     const handlerEnter = () => {
+        setLoading(true);
         const sceneEl = sceneRef.current;
+        sceneEl.addEventListener('arReady', function (e) {
+            setLoading(false);
+            console.log('ready');
+        });
+        //
+        sceneEl.addEventListener('arError', function (e) {
+            setErr(true);
+            setLoading(false);
+            console.log('error');
+        });
+        //
         let arSystem = sceneEl.systems['mindar-face-system'];
         if (arSystem) {
             init();
@@ -99,6 +117,16 @@ export default function MainAR({ assets }) {
         setIns(!ins);
     };
 
+    const handlerStartStop = () => {
+        if (on) {
+            sceneRef.current.systems['mindar-face-system'].stop();
+        } else {
+            sceneRef.current.systems['mindar-face-system'].start();
+            setLoading(true);
+        }
+        setOn(!on);
+    };
+
     const handlersSwipe = useSwipeable({
         onSwipedLeft: handleLeft,
         onSwipedRight: handleRight,
@@ -107,32 +135,16 @@ export default function MainAR({ assets }) {
     });
     return (
         <>
-            {ins && (
-                <section
-                    className="absolute z-50 left-0 top-0 w-full h-full bg-green-500 flex justify-center items-center font-mono text-lg p-8"
-                    onClick={handlerEnter}
-                >
-                    - Please allow the camera when requested <br></br> - You can
-                    either swipe or tap the arrow button <br></br> - You can tap
-                    the circle button to stop <br></br> - Tap the screen to
-                    enter
-                </section>
-            )}
+            {ins && <Instruction onClick={handlerEnter}></Instruction>}
+            {loading && <Loading></Loading>}
+            {!on && <InstructionStart></InstructionStart>}
+            {err && <Error></Error>}
             <div className="absolute w-full bottom-0 h-1/6 flex justify-center items-center z-40 pointer-events-none">
                 <button
                     className={`w-[45px] h-[45px] pointer-events-auto ${
                         on ? 'bg-red-500' : 'bg-green-500'
-                    } rounded-[30px] border-none`}
-                    onClick={() => {
-                        on
-                            ? sceneRef.current.systems[
-                                  'mindar-face-system'
-                              ].stop()
-                            : sceneRef.current.systems[
-                                  'mindar-face-system'
-                              ].start();
-                        setOn(!on);
-                    }}
+                    } rounded-[30px] border-none cursor-pointer`}
+                    onClick={handlerStartStop}
                 ></button>
             </div>
             <div className={`${on ? '' : 'hidden'}`}>
